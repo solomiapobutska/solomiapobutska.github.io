@@ -1,27 +1,396 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <title>Drag&Drop Program</title>
-    <link rel="stylesheet" type="text/css" href="..assets/css/lab-four.css">
-    <link rel="stylesheet" type="text/css" href="..assets/css/styles.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+    <head>
+        <title>Drag&Drop Program</title>
+    
+        <link rel="stylesheet" type="text/css" href="..assets/css/styles.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<body>
-    <base href="https://chessboardjs.com/" />
-    <h3 class="board">
-    Random moves
-    </h3>
-    <div id="board" class="board"></div>
-    <br>
-    <div class="info">
-        <div id="move-history" class="move-history">
-        </div>
-    </div>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+        <script src="https://cdn.rawgit.com/lhartikk/simple-chess-ai/master/lib/js/chess.js"></script>
+        <script src="https://chessboardjs.com/js/chessboard.js"></script>
+    </head>
 
-    <script src="../scripts/lab-four.js"></script>
+    <body>
+        
+        <base href="https://chessboardjs.com/" />
+        <h1> Lab 4 - Drag & Drop</h1>
+        <h3 class="board"> Random moves </h3>
+            <div id="board" class="board"style="width: 400px; height: 400px;"></div>
+                <br>
+                    <div class="info">
+                        <div id="move-history" class="move-history"></div>
+                    </div>
     </body>
 
-    
+    <!-- <script src="../scripts/lab-four.js"></script> -->
+
+    <!-- SCRIPT -->
+    <script>
+
+var board,
+    game = new Chess();
+
+/*The "AI" part starts here */
+
+var calculateBestMove =function(game) {
+
+    var newGameMoves = game.ugly_moves();
+
+    return newGameMoves[Math.floor(Math.random() * newGameMoves.length)];
+
+};
+
+/* board visualization and games state handling starts here*/
+
+var onDragStart = function (source, piece, position, orientation) {
+    if (game.in_checkmate() === true || game.in_draw() === true ||
+        piece.search(/^b/) !== -1) {
+        return false;
+    }
+};
+
+var makeBestMove = function () {
+    var bestMove = getBestMove(game);
+    game.ugly_move(bestMove);
+    board.position(game.fen());
+    renderMoveHistory(game.history());
+    if (game.game_over()) {
+        alert('Game over');
+    }
+};
+
+var getBestMove = function (game) {
+    if (game.game_over()) {
+        alert('Game over');
+    }
+    var bestMove = calculateBestMove(game);
+    return bestMove;
+};
+
+var renderMoveHistory = function (moves) {
+    var historyElement = $('#move-history').empty();
+    historyElement.empty();
+    for (var i = 0; i < moves.length; i = i + 2) {
+        historyElement.append('<span>' + moves[i] + ' ' + ( moves[i + 1] ? moves[i + 1] : ' ') + '</span><br>')
+    }
+    historyElement.scrollTop(historyElement[0].scrollHeight);
+
+};
+
+var onDrop = function (source, target) {
+
+    var move = game.move({
+        from: source,
+        to: target,
+        promotion: 'q'
+    });
+
+    removeGreySquares();
+    if (move === null) {
+        return 'snapback';
+    }
+
+    renderMoveHistory(game.history());
+    window.setTimeout(makeBestMove, 250);
+};
+
+var onSnapEnd = function () {
+    board.position(game.fen());
+};
+
+var onMouseoverSquare = function(square, piece) {
+    var moves = game.moves({
+        square: square,
+        verbose: true
+    });
+
+    if (moves.length === 0) return;
+
+    greySquare(square);
+
+    for (var i = 0; i < moves.length; i++) {
+        greySquare(moves[i].to);
+    }
+};
+
+var onMouseoutSquare = function(square, piece) {
+    removeGreySquares();
+};
+
+var removeGreySquares = function() {
+    $('#board .square-55d63').css('background', '');
+};
+
+var greySquare = function(square) {
+    var squareEl = $('#board .square-' + square);
+
+    var background = '#a9a9a9';
+    if (squareEl.hasClass('black-3c85d') === true) {
+        background = '#696969';
+    }
+
+    squareEl.css('background', background);
+};
+
+var cfg = {
+    draggable: true,
+    position: 'start',
+    onDragStart: onDragStart,
+    onDrop: onDrop,
+    onMouseoutSquare: onMouseoutSquare,
+    onMouseoverSquare: onMouseoverSquare,
+    onSnapEnd: onSnapEnd
+};
+board = ChessBoard('board', cfg);
+    </script>
+
+
+<style>
+
+.board {
+  width: 50px;
+  height: 50px;
+}
+
+.info {
+  width: 50px;
+  height: 50px;
+}
+
+.move-history {
+  max-height: 100px;
+  overflow-y: scroll;
+}
+
+.clearfix-7da63 {
+clear: both;
+}
+
+/* board */
+.board-b72b1 {
+border: 2px solid #404040;
+-moz-box-sizing: content-box;
+box-sizing: content-box;
+}
+
+/* square */
+.square-55d63 {
+float: left;
+position: relative;
+
+/* disable any native browser highlighting */
+-webkit-touch-callout: none;
+  -webkit-user-select: none;
+   -khtml-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+/* white square */
+.white-1e1d7 {
+background-color: #f0d9b5;
+color: #b58863;
+}
+
+/* black square */
+.black-3c85d {
+background-color: #b58863;
+color: #f0d9b5;
+}
+
+/* highlighted square */
+.highlight1-32417, .highlight2-9c5d2 {
+-webkit-box-shadow: inset 0 0 3px 3px yellow;
+-moz-box-shadow: inset 0 0 3px 3px yellow;
+box-shadow: inset 0 0 3px 3px yellow;
+}
+
+/* notation */
+.notation-322f9 {
+cursor: default;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+position: absolute;
+}
+.alpha-d2270 {
+bottom: 1px;
+right: 3px;
+}
+.numeric-fc462 {
+top: 2px;
+left: 2px;
+}
+
+/* Set width to 600px, and center box */
+.gist {
+  padding-top: 30px;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 600px !important;    
+}
+
+/* Limit height and width of script box, and enable scrollbars */
+.gist-data {
+  height:250px;
+  overflow-y: visible;
+  width: 600px;
+  overflow-x: visible;
+}
+
+body .gist .highlight {
+  background: #272822;
+}
+body .gist .blob-num,
+body .gist .blob-code-inner,
+body .gist .pl-s2,
+body .gist .pl-stj {
+  color: #f8f8f2;
+}
+body .gist .pl-c1 {
+  color: #ae81ff;
+}
+body .gist .pl-enti {
+  color: #a6e22e;
+  font-weight: 700;
+}
+body .gist .pl-st {
+  color: #66d9ef;
+}
+body .gist .pl-mdr {
+  color: #66d9ef;
+  font-weight: 400;
+}
+body .gist .pl-ms1 {
+  background: #fd971f;
+}
+body .gist .pl-c,
+body .gist .pl-c span,
+body .gist .pl-pdc {
+  color: #75715e;
+  font-style: italic;
+}
+body .gist .pl-cce,
+body .gist .pl-cn,
+body .gist .pl-coc,
+body .gist .pl-enc,
+body .gist .pl-ens,
+body .gist .pl-kos,
+body .gist .pl-kou,
+body .gist .pl-mh .pl-pdh,
+body .gist .pl-mp,
+body .gist .pl-mp1 .pl-sf,
+body .gist .pl-mq,
+body .gist .pl-pde,
+body .gist .pl-pse,
+body .gist .pl-pse .pl-s2,
+body .gist .pl-mp .pl-s3,
+body .gist .pl-smi,
+body .gist .pl-stp,
+body .gist .pl-sv,
+body .gist .pl-v,
+body .gist .pl-vi,
+body .gist .pl-vpf,
+body .gist .pl-mri,
+body .gist .pl-va,
+body .gist .pl-vpu {
+  color: #66d9ef;
+}
+body .gist .pl-cos,
+body .gist .pl-ml,
+body .gist .pl-pds,
+body .gist .pl-s,
+body .gist .pl-s1,
+body .gist .pl-sol {
+  color: #e6db74;
+}
+body .gist .pl-e,
+body .gist .pl-ef,
+body .gist .pl-en,
+body .gist .pl-enf,
+body .gist .pl-enm,
+body .gist .pl-entc,
+body .gist .pl-entm,
+body .gist .pl-eoac,
+body .gist .pl-eoac .pl-pde,
+body .gist .pl-eoi,
+body .gist .pl-mai .pl-sf,
+body .gist .pl-mm,
+body .gist .pl-pdv,
+body .gist .pl-som,
+body .gist .pl-sr,
+body .gist .pl-vo {
+  color: #a6e22e;
+}
+body .gist .pl-ent,
+body .gist .pl-eoa,
+body .gist .pl-eoai,
+body .gist .pl-eoai .pl-pde,
+body .gist .pl-k,
+body .gist .pl-ko,
+body .gist .pl-kolp,
+body .gist .pl-mc,
+body .gist .pl-mr,
+body .gist .pl-ms,
+body .gist .pl-s3,
+body .gist .pl-smc,
+body .gist .pl-smp,
+body .gist .pl-sok,
+body .gist .pl-sra,
+body .gist .pl-src,
+body .gist .pl-sre {
+  color: #f92672;
+}
+body .gist .pl-mb,
+body .gist .pl-pdb {
+  color: #e6db74;
+  font-weight: 700;
+}
+body .gist .pl-mi,
+body .gist .pl-pdi {
+  color: #f92672;
+  font-style: italic;
+}
+body .gist .pl-pdc1,
+body .gist .pl-scp {
+  color: #ae81ff;
+}
+body .gist .pl-sc,
+body .gist .pl-sf,
+body .gist .pl-mo,
+body .gist .pl-entl {
+  color: #fd971f;
+}
+body .gist .pl-mi1,
+body .gist .pl-mdht {
+  color: #a6e22e;
+  background: rgba(0, 64, 0, .5);
+}
+body .gist .pl-md,
+body .gist .pl-mdhf {
+  color: #f92672;
+  background: rgba(64, 0, 0, .5);
+}
+body .gist .pl-mdh,
+body .gist .pl-mdi {
+  color: #a6e22e;
+  font-weight: 400;
+}
+body .gist .pl-ib,
+body .gist .pl-id,
+body .gist .pl-ii,
+body .gist .pl-iu {
+  background: #a6e22e;
+  color: #272822;
+}
+</style>
+
+
+<div class="gist gist-data ">
+    <script src="https://gist.github.com/solomiapobutska/a9f5ac1a527130259be62537166b95db.js"></script>
+</div>
 </html>
