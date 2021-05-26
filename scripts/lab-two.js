@@ -1,18 +1,149 @@
-//sprite sheet array
-var spritesheet;//See file below
+var spritesheet = 
+{
+	"frames": [
+		{
+			"frame": {
+				"x": 1,
+				"y": 1,
+				"w": 83,
+				"h": 144
+			},
+			"sourceSize": {
+				"w": 83,
+				"h": 144
+			}
+		},
+		{
+			"frame": {
+				"x": 86,
+				"y": 1,
+				"w": 55,
+				"h": 141
+			},
+			"sourceSize": {
+				"w": 55,
+				"h": 141
+			}
+		},
+		{
+			"frame": {
+				"x": 143,
+				"y": 1,
+				"w": 81,
+				"h": 142
+			},
+			"sourceSize": {
+				"w": 81,
+				"h": 142
+			}
+		},
+		{
+			"frame": {
+				"x": 226,
+				"y": 1,
+				"w": 77,
+				"h": 143
+			},
+			"sourceSize": {
+				"w": 77,
+				"h": 143
+			}
+		},
+		{
+			"frame": {
+				"x": 305,
+				"y": 1,
+				"w": 82,
+				"h": 141
+			},
+			"sourceSize": {
+				"w": 82,
+				"h": 141
+			}
+		},
+		{
+			"frame": {
+				"x": 389,
+				"y": 1,
+				"w": 79,
+				"h": 143
+			},
+			"sourceSize": {
+				"w": 79,
+				"h": 143
+			}
+		},
+		{
+			"frame": {
+				"x": 470,
+				"y": 1,
+				"w": 80,
+				"h": 141
+			},
+			"sourceSize": {
+				"w": 80,
+				"h": 141
+			}
+		},
+		{
+			"frame": {
+				"x": 552,
+				"y": 1,
+				"w": 80,
+				"h": 140
+			},
+			"sourceSize": {
+				"w": 80,
+				"h": 140
+			}
+		},
+		{
+			"frame": {
+				"x": 634,
+				"y": 1,
+				"w": 80,
+				"h": 142
+			},
+			"sourceSize": {
+				"w": 80,
+				"h": 142
+			}
+		},
+		{
+			"frame": {
+				"x": 716,
+				"y": 1,
+				"w": 80,
+				"h": 144
+			},
+			"sourceSize": {
+				"w": 80,
+				"h": 144
+			}
+		},
+		{
+			"frame": {
+				"x": 798,
+				"y": 1,
+				"w": 83,
+				"h": 144
+			},
+			"sourceSize": {
+				"w": 83,
+				"h": 144
+			}
+		}
+	]
+}
     
 
-let numbers = new Image(300, 300);
-numbers.src = '../assets/img/spritesheet.png';
-document.body.appendChild(numbers);
+let numbers_img = new Image();
+numbers_img.src = '../assets/img/spritesheet.png';
+document.body.appendChild(numbers_img);
 
 const canvas_count = document.getElementById('canvas_count');
 const ctx_count = canvas_count.getContext('2d');
 
-/*Function drawNumber
-	Reads from a JSON array and finds specific x and y coordinates on a sprite sheet.
-	Arguments:
-	i = index of animination loop*/
 function drawNumber(i){
   ctx_count.drawImage(numbers_img, spritesheet.frames[i].frame.x,
     spritesheet.frames[i].frame.y,
@@ -22,12 +153,6 @@ function drawNumber(i){
     spritesheet.frames[i].sourceSize.h);
 }
 
-/*Special Function drawNumberDouble
-	Reads from a JSON array and finds the specific x and y coordinates on a sprite sheet. This particular function displays the Tens place of the number then displays the Ones
-		Arguments:
-		tens = tens place of a number
-		num = ones place of a number
-	*/
 function drawNumberDouble(ten, num){
   ctx_count.drawImage(numbers_img, spritesheet.frames[ten].frame.x,
 		spritesheet.frames[ten].frame.y,
@@ -43,7 +168,7 @@ function drawNumberDouble(ten, num){
 		spritesheet.frames[num].sourceSize.w,
 		spritesheet.frames[num].sourceSize.h);
 }
-//Gets button ID and sets an onClick event.
+
 const button = document.getElementById('startButton');
 button.onclick = function() {
 	animateCount();
@@ -52,12 +177,8 @@ button.onclick = function() {
 
 const cycleLoop = [0,1,2,3,4,5,6,7,8,9,10];
 let currentLoopIndex = 0;
-let delay = 500;//delay determines the time between calling the next frame
+let delay = 500;n 
 
-/*Special Function animateCount()
-This function contains the animation loop.
-*Recursive function 
-*/
 function animateCount() {
 
 	if (currentLoopIndex > cycleLoop.length - 1) {
