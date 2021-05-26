@@ -1,12 +1,13 @@
-var amelie = new Audio("assets/audio/Amelie.mp3");
-var fly = new Audio("assets/audio/Fly.mp3");
-var chopin = new Audio("assets/audio/Chopin.mp3");
-var colors = new Audio("assets/audio/Colors.mp3");
-var horn = new Audio("assets/audio/You.mp3");
+var amelie = new Audio("../assets/audio/Amelie.mp3");
+var fly = new Audio("../assets/audio/Fly.mp3");
+var chopin = new Audio("../assets/audio/Chopin.mp3");
+var colors = new Audio("../assets/audio/Colors.mp3");
+var you = new Audio("../assets/audio/You.mp3");
 
 var slider = document.getElementById("volume");
 var output = document.getElementById("volumeValue");
-output.innerHTML = slider.value;
+
+
 
 slider.oninput = function() {
   output.innerHTML = this.value;
