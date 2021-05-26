@@ -1,6 +1,6 @@
 const newNote = document.getElementById("note"),
-  notes = document.querySelector(".notes"),
-  form = document.getElementById("add-note");
+notes = document.querySelector(".notes"),
+form = document.getElementById("add-note");
 
 class Note {
   // Add note
@@ -40,7 +40,7 @@ class Note {
     content.innerHTML = `
         <p>${n}</p>
         <p class="actions">
-            <button class="delete" onclick="btnClicked(event)"> <i class="fas fa-trash-alt"></i></button>
+            <button class="delete" onclick="btnClicked(event)"><i class="fas fa-trash-alt"></i></button>
         </p>
         `;
 

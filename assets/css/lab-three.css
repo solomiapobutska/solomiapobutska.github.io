@@ -73,7 +73,7 @@ body {
       }
         button {
           border: none;
-          background-color: #fff;
+          background-color: rgb(173, 231, 254);
           margin-right: 8px;
           outline: none;
           transition: 0.2s all;
