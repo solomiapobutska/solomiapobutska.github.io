@@ -1,0 +1,120 @@
+/* just some  styling*/
+body { 
+    text-align: center; 
+  
+  }
+  
+  .heart {
+      font-size: 150px;
+      color: #e00;
+      animation: beat .25s infinite alternate;
+      transform-origin: center;
+  }
+  
+  /* Heart beat animation */
+  @keyframes beat{
+      to { transform: scale(1.4); }
+  }
+
+  #thoughtbubble{
+    width: 150px;
+    height: 150px;
+    background: rgb(240, 167, 178);
+    position:fixed; left: 1000px; top: 80px;
+    border-radius: 60px 60px 0;
+    border: 5px solid rgb(245, 96, 106);
+
+  }
+  
+  .h3{
+  
+   font-family: Verdana, Arial, Helvetica, sans-serif;
+      font-size: 25px;
+      color: #f42f2f;
+      text-align: center;
+      position:fixed; left:5px; bottom: 5px;
+      }
+  
+  
+  
+  /* we are using prefix free for this example
+  
+  for prefixed code it would look like this
+  
+  
+  body {
+      text-align: center;
+  }
+  
+  
+  .heart {
+      font-size: 150px;
+      color: #e00;
+  
+      -webkit-animation: beat .25s infinite alternate;
+      -moz-animation: beat .25s infinite alternate;
+      -ms-animation: beat .25s infinite alternate;
+      -o-animation: beat .25s infinite alternate;
+      animation: beat .25s infinite alternate;
+  
+      -webkit-transform-origin: center;
+      -moz-transform-origin: center;
+      -o-transform-origin: center;
+      -ms-transform-origin: center;
+      transform-origin: center;
+  }
+  
+  
+  @keyframes "beat" {
+   to {
+      -webkit-transform: scale(1.4);
+         -moz-transform: scale(1.4);
+         -o-transform: scale(1.4);
+         -ms-transform: scale(1.4);
+         transform: scale(1.4);
+   }
+  
+  }
+  
+  @-moz-keyframes beat {
+   to {
+     -moz-transform: scale(1.4);
+     transform: scale(1.4);
+   }
+  
+  }
+  
+  @-webkit-keyframes "beat" {
+   to {
+     -webkit-transform: scale(1.4);
+     transform: scale(1.4);
+   }
+  
+  }
+  
+  @-ms-keyframes "beat" {
+   to {
+     -ms-transform: scale(1.4);
+     transform: scale(1.4);
+   }
+  
+  }
+  
+  @-o-keyframes "beat" {
+   to {
+     -o-transform: scale(1.4);
+     transform: scale(1.4);
+   }
+  
+  } */
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
